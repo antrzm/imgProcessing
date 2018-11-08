@@ -55,9 +55,7 @@ public:
     void finished();
 
     void pick_pixel(QPoint point);
-    void pick_rectangle(QPoint point_0, QPoint point_1);
     void reset_pixel();
-    void reset_rectangle();
 
     bool is_correct_x(const QImage& image, int x);
     bool is_correct_y(const QImage& image, int y);
@@ -69,25 +67,14 @@ public:
     void hsvTransformDialogIsClosed();
     void filtersDialogIsClosed();
 
-    void open_rectangle_rgb_dialog();
-    void open_rectangle_hsv_dialog();
-    void open_rectangle_lab_dialog();
-
 private slots:
     void on_actionOpen_triggered();
     void on_actionL_histogram_triggered();
     void on_actionHSV_Transform_triggered();
     void on_actionFilters_triggered();
 
-    void on_rectangle_rgb_button_clicked();
-    void on_rectangle_hsv_button_clicked();
-    void on_rectangle_lab_button_clicked();
     void on_pixel_x_lineEdit_editingFinished();
     void on_pixel_y_lineEdit_editingFinished();
-    void on_rectangle_x0_lineEdit_editingFinished();
-    void on_rectangle_y0_lineEdit_editingFinished();
-    void on_rectangle_x1_lineEdit_editingFinished();
-    void on_rectangle_y1_lineEdit_editingFinished();
 
 private:
 
@@ -106,9 +93,6 @@ private:
     bool is_pixel_picked;
     QPoint pixel_point;
     /* Picked rectangle */
-    bool is_rectangle_picked;
-    QPoint rectangle_point_0;
-    QPoint rectangle_point_1;
 
     /* View */
     /* 1. Menubar */
@@ -124,12 +108,6 @@ private:
     void turn_off_sidemenu_pixel();
     void set_sidemenu_pixel(QPoint point, RGBA rgba, HSV hsv, LAB lab);
     void reset_sidemenu_pixel();
-    /* 2.2. Rectangle */
-    void turn_on_sidemenu_rectangle();
-    void turn_on_sidemenu_rectangle_rgb_hsv_lab_buttons();
-    void turn_off_sidemenu_rectangle();
-    void set_sidemenu_rectangle(QPoint point_0, QPoint point_1);
-    void reset_sidemenu_rectangle();
     /* ---------- */
 };
 

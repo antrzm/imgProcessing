@@ -26,7 +26,6 @@ void ImageLabel::mousePressEvent(QMouseEvent* ev)
         {
             return;
         }
-        mainWindow->pick_rectangle(rectangle_point_0, rectangle_point_0);
     }
 }
 
@@ -39,10 +38,6 @@ void ImageLabel::mouseMoveEvent(QMouseEvent* ev)
     if (is_left_button_pressed)
     {
         mainWindow->pick_pixel(ev->localPos().toPoint());
-    }
-    if (is_right_button_pressed)
-    {
-        mainWindow->pick_rectangle(rectangle_point_0, ev->localPos().toPoint());
     }
 }
 
