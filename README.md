@@ -7,4 +7,5 @@
       - Gauss; 
       - Sobel; 
       - Gabor; 
-      - Canny
+      - Canny;
+      - Otsu
