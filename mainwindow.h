@@ -49,6 +49,7 @@ public:
     void sobel();
     void gabor(int window, float tetta);
     void canny();
+    void otsu();
 
     void hsv_transform(float h_shift, float s_mul, float v_mul);
     void try_hsv_transform(float h_shift, float s_mul, float v_mul);

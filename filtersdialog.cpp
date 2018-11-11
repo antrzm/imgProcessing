@@ -12,6 +12,7 @@ FiltersDialog::FiltersDialog(QWidget *parent) :
     SOBEL_TAB_WIDGET_INDEX = ui->filters_tabWidget->indexOf(ui->sobel_parameters_tab);
     GABOR_TAB_WIDGET_INDEX = ui->filters_tabWidget->indexOf(ui->gabor_parameters_tab);
     CANNY_TAB_WIDGET_INDEX = ui->filters_tabWidget->indexOf(ui->canny_parameters_tab);
+    OTSU_TAB_WIDGET_INDEX = ui->filters_tabWidget->indexOf(ui->otsu_parameters_tab);
 }
 
 FiltersDialog::~FiltersDialog()
@@ -65,6 +66,10 @@ void FiltersDialog::on_try_button_clicked()
     }
     if (ui->filters_tabWidget->currentIndex() == CANNY_TAB_WIDGET_INDEX){
         image_editor->canny();
+        return;
+    }
+    if (ui->filters_tabWidget->currentIndex() == OTSU_TAB_WIDGET_INDEX){
+        image_editor->otsu();
         return;
     }
 }

@@ -3,6 +3,7 @@
 
 #include <QImage>
 #include <QPoint>
+#include <QTextStream>
 #include <vector>
 
 using namespace std;
@@ -64,6 +65,16 @@ private:
     vector<float> grad_y_k;
 public:
     Canny();
+    void go(const QImage& input, QImage& output);
+};
+
+class Otsu: public Filter{
+private:
+    vector<QPoint> offset;
+    vector<float> grad_x_k;
+    vector<float> grad_y_k;
+public:
+    Otsu();
     void go(const QImage& input, QImage& output);
 };
 

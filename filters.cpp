@@ -1,6 +1,7 @@
 #include "filter.h"
 #include "math.h"
 #include "color_tools.h"
+#include <QtMath>
 
 float Gauss::gauss_function(float x, float y, float sigma)
 {
@@ -159,7 +160,6 @@ void Sobel::go(const QImage& input, QImage& output)
         }
     }
 }
-
 
 float Gabor::gabor_function(int x, int y, float tetta)
 {
@@ -431,6 +431,102 @@ void Canny::go(const QImage& input, QImage& output)
 
     for (int i = 0; i < size; i++)
         oImg[i] = static_cast<quint8>(qBound(0, iImg[i], 255));
+}
+
+Otsu::Otsu(){
+
+}
+
+void Otsu::go(const QImage& input, QImage& output){
+     QImage inImage = input.convertToFormat(QImage::Format_Grayscale8);
+     QTextStream out(stdout);
+     int min = INT_MAX;
+     int max = INT_MIN;
+
+     for (int i = 1; i < inImage.height(); i++){
+         uchar* line = inImage.scanLine(i);
+         for (int j=1; j< inImage.width(); j++) {
+            int value = line[j];
+
+            if (value < min)
+                min = value;
+
+            if (value > max)
+                max = value;
+         }
+     }
+
+     int histSize = max - min + 1;
+     int *hist = new int[histSize];
+     for (int t = 0; t < histSize; t++)
+         hist[t] = 0;
+     for (int i = 1; i < inImage.height(); i++){
+         uchar* line = inImage.scanLine(i);
+         for (int j=1; j< inImage.width(); j++)
+            hist[line[j] - min]++;
+     }
+
+     int m = 0; // m - сумма высот всех бинов, домноженных на положение их середины
+     int n = 0; // n - сумма высот всех бинов
+     for (int t = 0; t <= max - min; t++) {
+        m += t * hist[t];
+        n += hist[t];
+     }
+
+     float maxSigma = -1; // Максимальное значение межклассовой дисперсии
+     int threshold = 0; // Порог, соответствующий maxSigma
+
+     int alpha1 = 0; // Сумма высот всех бинов для класса 1
+     int beta1 = 0; // Сумма высот всех бинов для класса 1, домноженных на положение их середины
+
+     // Переменная alpha2 не нужна, т.к. она равна m - alpha1
+     // Переменная beta2 не нужна, т.к. она равна n - alpha1
+
+
+     // t пробегается по всем возможным значениям порога
+     for (int t = 0; t < max - min; t++)
+     {
+       alpha1 += t * hist[t];
+       beta1 += hist[t];
+
+       // Считаем вероятность класса 1.
+       float w1 = (float)beta1 / n;
+       // Нетрудно догадаться, что w2 тоже не нужна, т.к. она равна 1 - w1
+
+       // a = a1 - a2, где a1, a2 - средние арифметические для классов 1 и 2
+       float a = (float)alpha1 / beta1 - (float)(m - alpha1) / (n - beta1);
+
+       // Наконец, считаем sigma
+       float sigma = w1 * (1 - w1) * a * a;
+
+       // Если sigma больше текущей максимальной, то обновляем maxSigma и порог
+       if (sigma > maxSigma)
+       {
+         maxSigma = sigma;
+         threshold = t;
+       }
+     }
+
+     // Не забудем, что порог отсчитывался от min, а не от нуля
+     threshold += min;
+
+     // Все, порог посчитан, возвращаем его наверх :)
+     out<<threshold<<endl;
+
+
+
+     for (int y = 0; y < inImage.height(); y++) {
+         uchar *srcLine = inImage.scanLine(y);
+         uchar *dstLine = output.scanLine(y);
+
+         for (int x = 0; x < inImage.width(); x++){
+             if (srcLine[x] > threshold){
+                 srcLine[x] = 255;
+             } else   srcLine[x] = 0;
+         }
+     }
+
+     output = inImage;
 }
 
 HsvTransform::HsvTransform(float h_shift, float s_mul, float v_mul)

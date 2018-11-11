@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>289</width>
+    <width>340</width>
     <height>175</height>
    </rect>
   </property>
@@ -41,7 +41,7 @@
       <enum>QTabWidget::Rounded</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="gauss_parameters_tab">
       <attribute name="title">
@@ -389,6 +389,11 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
+     </widget>
+     <widget class="QWidget" name="otsu_parameters_tab">
+      <attribute name="title">
+       <string>Otsu</string>
+      </attribute>
      </widget>
     </widget>
    </item>

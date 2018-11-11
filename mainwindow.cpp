@@ -113,6 +113,11 @@ void MainWindow::canny(){
     process_image(&filter);
 }
 
+void MainWindow::otsu(){
+    Otsu filter = Otsu();
+    process_image(&filter);
+}
+
 void MainWindow::hsv_transform(float h_shift, float s_mul, float v_mul)
 {
     HsvTransform filter = HsvTransform(h_shift, s_mul, v_mul);
